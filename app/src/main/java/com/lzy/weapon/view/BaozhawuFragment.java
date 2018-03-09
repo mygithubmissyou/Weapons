@@ -99,6 +99,6 @@ public class BaozhawuFragment extends Fragment implements JssyContract.View {
 
     @Override
     public void showError() {
-        Toast.makeText(getActivity(), "出现错误,请稍后重试", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "出现错误,请稍后重试!", Toast.LENGTH_SHORT).show();
     }
 }
