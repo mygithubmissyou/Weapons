@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "I:\\Weapon\\library\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values-sw\\values-sw.xml",
+            "map": [
+                {
+                    "source": "I:\\.gradle\\wrapper\\dists\\gradle-3.3-all\\55gk2rcmfc6p2dg9u9ohc3hw9\\gradle-3.3\\caches\\transforms-1\\files-1.1\\support-compat-26.1.0.aar\\cd13dbcdebd3247ec43ec866111bbe7f\\res\\values-sw\\values-sw.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    }
+                }
+            ]
+        }
+    ]
+}
