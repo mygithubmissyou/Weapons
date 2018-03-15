@@ -17,7 +17,7 @@ import java.util.List;
 public class BaozhawuPresenter implements JssyContract.Presenter {
     JssyContract.View view;
     private List<CustomBean> jssyBeans;
-    String tablename;
+    public String tablename;
 
     public BaozhawuPresenter(JssyContract.View view,String tablename) {
         this.view = view;
@@ -26,17 +26,13 @@ public class BaozhawuPresenter implements JssyContract.Presenter {
 
 
     @Override
-    public void getJssyInfo() {
-        if (view.isActive()) {
-            view.showLoading();
-        }
+    public void getJssyInfo(int pagenum,int pagesize) {
+
         //执行任务
 //        JssyCallback jssyCallback = JssyCallback.getInstance();
         BaozhawuCallback jssyCallback =new BaozhawuCallback(((BaozhawuFragment)view).getContext());
-        jssyBeans = jssyCallback.extcute(tablename);
+        jssyBeans = jssyCallback.extcute(tablename,pagenum,pagesize);
         view.setCustomInfo(jssyBeans);
-        if (view.isActive()) {
-            view.hideLoading();
-        }
+
     }
 }

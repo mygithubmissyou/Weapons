@@ -13,19 +13,19 @@ import java.util.List;
 
 public interface JssyContract {
     interface Presenter {
-        void getJssyInfo();
+        void getJssyInfo(int pagenum,int pagesize);
     }
 
     interface View extends BaseView<Presenter> {
         void setJssyInfo(List<Jssy> jssyBeans);
         void setCustomInfo(List<CustomBean> customBeans);
 
-        boolean isActive();
-
-        void showLoading();
-
-        void hideLoading();
-
-        void showError();
+//        boolean isActive();
+//
+//        void showLoading();
+//
+//        void hideLoading();
+//
+//        void showError();
     }
 }

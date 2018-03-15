@@ -21,48 +21,12 @@ public class JssyPresenter implements JssyContract.Presenter {
         this.tablename = name;
     }
 
-//    @Override
-//    public void onSuccess(List<JssyBean> jssyBeans) {
-//        if (view.isActive()) {
-//            view.setJssyInfo(jssyBeans);
-//        }
-//    }
-//
-//    @Override
-//    public void onStart() {
-//        if (view.isActive()) {
-//
-//            view.showLoading();
-//        }
-//    }
-//
-//    @Override
-//    public void onFailed() {
-//        if (view.isActive()) {
-//            view.showError();
-//            view.hideLoading();
-//        }
-//    }
-//
-//    @Override
-//    public void onFinish() {
-//        if (view.isActive()) {
-//            view.hideLoading();
-//        }
-//    }
-
     @Override
-    public void getJssyInfo() {
-        if (view.isActive()) {
-            view.showLoading();
-        }
+    public void getJssyInfo(int pagenum,int pagesize) {
+
         //执行任务
-//        JssyCallback jssyCallback = JssyCallback.getInstance();
         JssyCallback jssyCallback = new JssyCallback(((JssyFragment) view).getContext());
-        jssyBeans = jssyCallback.extcute(tablename);
+        jssyBeans = jssyCallback.extcute(tablename,pagenum,pagesize);
         view.setJssyInfo(jssyBeans);
-        if (view.isActive()) {
-            view.hideLoading();
-        }
     }
 }

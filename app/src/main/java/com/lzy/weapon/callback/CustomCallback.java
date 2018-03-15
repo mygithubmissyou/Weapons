@@ -5,7 +5,7 @@ package com.lzy.weapon.callback;
  */
 
 public interface CustomCallback<T> {
-    T extcute(String tablename);
+    T extcute(String tablename,int pagenum,int pagesize);
 
 //    void onFailed();
 //

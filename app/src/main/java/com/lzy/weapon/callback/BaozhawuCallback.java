@@ -37,49 +37,62 @@ public class BaozhawuCallback implements CustomCallback<List<CustomBean>> {
     }
 
     @Override
-    public List<CustomBean> extcute(String tablename) {
+    public List<CustomBean> extcute(String tablename, int pagenum, int pagesize) {
 //        jssyBeans = DataSupport
 //                .where("id>0").limit(10)
 //                .find(Jssy.class);
 //        jssyBeans=DataSupport.findAll(Jssy.class,1,2,3,4,5);
         //获取军事常识数据列表
-        requestJssyData(tablename);
+        requestJssyData(tablename, pagenum, pagesize);
 
         return jssyBeans;
     }
 
 
-    private void requestJssyData(String tablename) {
+    private void requestJssyData(String tablename, int pagenum, int pagesize) {
         SQLiteDatabase sqLiteDatabase = DbManger.getInstance(activity).getWritableDatabase();
-        Cursor cursor = sqLiteDatabase.rawQuery("select * from " + tablename + " LIMIT 1,9", null);
+        Cursor cursor = null;
+        if (pagenum == 1) {
+            cursor = sqLiteDatabase.rawQuery("select * from " + tablename + " LIMIT " + pagesize
+                    , null);
+        } else {
+            cursor = sqLiteDatabase.rawQuery("select * from " + tablename + " LIMIT " +(pagesize * (pagenum - 1)+1)+ " OFFSET " + pagesize
+                    , null);
+        }
+
         CustomBean jssy = null;
         jssyBeans = new ArrayList<>();
-        while (cursor.moveToNext()) {
-            String img = "";
-            if (cursor.getString(cursor.getColumnIndex("img")) != null
-                    && !cursor.getString(cursor.getColumnIndex("img")).equals("")) {
-                String temp = cursor.getString(cursor.getColumnIndex("img"));
-                img = temp.substring(temp.indexOf("src") + 5
-                        , temp.indexOf("alt") - 2);
-            }
-            String countrypic = "";
-            if (cursor.getString(cursor.getColumnIndex("countrypic")) != null
-                    && !cursor.getString(cursor.getColumnIndex("countrypic")).equals("")) {
-                String temp = cursor.getString(cursor.getColumnIndex("countrypic"));
-                countrypic = temp.substring(temp.indexOf("src") + 5
-                        , temp.indexOf("alt") - 2);
-            }
-            String title = cursor.getString(cursor.getColumnIndex("titles"));
-            String desc = cursor.getString(cursor.getColumnIndex("descs"));
-            String country = cursor.getString(cursor.getColumnIndex("country"));
-            String pingfen = cursor.getString(cursor.getColumnIndex("pingfen"));
-            String updatetime = cursor.getString(cursor.getColumnIndex("updatetime"));
+        try {
+            while (cursor.moveToNext()) {
+                String img = "";
+                if (cursor.getString(cursor.getColumnIndex("img")) != null
+                        && !cursor.getString(cursor.getColumnIndex("img")).equals("")) {
+                    String temp = cursor.getString(cursor.getColumnIndex("img"));
+                    img = temp.substring(temp.indexOf("src") + 5
+                            , temp.indexOf("alt") - 2);
+                }
+                String countrypic = "";
+                if (cursor.getString(cursor.getColumnIndex("countrypic")) != null
+                        && !cursor.getString(cursor.getColumnIndex("countrypic")).equals("")) {
+                    String temp = cursor.getString(cursor.getColumnIndex("countrypic"));
+                    countrypic = temp.substring(temp.indexOf("src") + 5
+                            , temp.indexOf("alt") - 2);
+                }
+                String title = cursor.getString(cursor.getColumnIndex("titles"));
+                String desc = cursor.getString(cursor.getColumnIndex("descs"));
+                String country = cursor.getString(cursor.getColumnIndex("country"));
+                String pingfen = cursor.getString(cursor.getColumnIndex("pingfen"));
+                String updatetime = cursor.getString(cursor.getColumnIndex("updatetime"));
 
-            String type = cursor.getString(cursor.getColumnIndex("type"));
-            int id = cursor.getInt(cursor.getColumnIndex("id"));
-            jssy = new CustomBean(country,countrypic,desc, id, img, pingfen,title,type,updatetime);
-            jssyBeans.add(jssy);
+                String type = cursor.getString(cursor.getColumnIndex("type"));
+                int id = cursor.getInt(cursor.getColumnIndex("id"));
+                jssy = new CustomBean(country, countrypic, desc, id, img, pingfen, title, type, updatetime);
+                jssyBeans.add(jssy);
+            }
+        } catch (Exception e) {
+
         }
+
         cursor.close();
         sqLiteDatabase.close();
     }

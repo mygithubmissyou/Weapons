@@ -30,9 +30,11 @@ public class JssyCallback implements CustomCallback<List<Jssy>> {
     public JssyCallback(Context activity) {
         this.activity = activity;
     }
-    private JssyCallback( ) {
+
+    private JssyCallback() {
 
     }
+
     public static JssyCallback getInstance() {
         return JssyHolder.JSSY_CALLBACK;
     }
@@ -42,24 +44,30 @@ public class JssyCallback implements CustomCallback<List<Jssy>> {
     }
 
     @Override
-    public List<Jssy> extcute(String name) {
+    public List<Jssy> extcute(String name, int pagenum, int pagesize) {
 //        jssyBeans = DataSupport
 //                .where("id>0").limit(10)
 //                .find(Jssy.class);
 //        jssyBeans=DataSupport.findAll(Jssy.class,1,2,3,4,5);
         //获取军事常识数据列表
-        requestJssyData(name);
+        requestJssyData(name, pagenum, pagesize);
 
         return jssyBeans;
     }
 
 
-
-    private void requestJssyData(String name) {
+    private void requestJssyData(String name, int pagenum, int pagesize) {
         SQLiteDatabase sqLiteDatabase = DbManger.getInstance(activity).getWritableDatabase();
-        Cursor cursor = sqLiteDatabase.rawQuery("select * from "+name+" LIMIT 1,9", null);
+        Cursor cursor = null;
+        if (pagenum == 1) {
+
+            cursor = sqLiteDatabase.rawQuery("select * from " + name + " LIMIT " + pagesize, null);
+        } else {
+
+            cursor = sqLiteDatabase.rawQuery("select * from " + name + " LIMIT " + (pagesize * (pagenum - 1) + 1 )+ " OFFSET " + pagesize, null);
+        }
         Jssy jssy = null;
-        jssyBeans=new ArrayList<>();
+        jssyBeans = new ArrayList<>();
         while (cursor.moveToNext()) {
             String img = cursor.getString(cursor.getColumnIndex("img"));
             String title = cursor.getString(cursor.getColumnIndex("titlesy"));
